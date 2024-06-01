@@ -1,9 +1,22 @@
-[workspace]
-members = ["crates/*"]
-resolver = "2"
-
-[workspace.package]
+[package]
+name = "gpauto"
 version = "0.1.0"
-edition = "2021"
-authors = ["Aven Arlington<aven.arlington@gmail.com>"]
+authors = ["Aven Arlington <aven.arlingont@gmail.com>"]
+edition = "2018"
+description = "Simple utility to automatically pull repositories in a directory"
+repository = "https://github.com/aven-arlington/gpauto"
 license = "MIT"
+default-run = "gpauto"
+
+[dependencies]
+clap = { version = "4.*", features = ["derive", "string", "env"] }
+tracing = { version = "0.1" }
+tracing-subscriber = { version = "0.3" }
+
+[[bin]]
+name = "gpauto"
+path = "src/main.rs"
+
+[lib]
+name = "gpa"
+path = "src/gpauto.rs"

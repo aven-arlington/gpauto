@@ -1,9 +1,7 @@
 use clap::Parser;
-use front_end::app_api_call;
+use gpa::app_api_call;
 use std::{env, path::PathBuf};
-#[cfg(feature = "tracing")]
 use tracing::info;
-#[cfg(feature = "tracing")]
 
 fn default_log_path() -> PathBuf {
     let mut path = env::current_exe().unwrap();
