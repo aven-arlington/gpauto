@@ -14,14 +14,15 @@ pub fn main() -> Result<(), Box<dyn std::error::Error>> {
         .with_env_filter(EnvFilter::from_default_env())
         .pretty()
         .without_time()
+        .with_target(false)
         .finish();
     tracing::subscriber::set_global_default(subscriber)?;
 
     // Demo functionality
-    debug!("Debug");
-    info!("Info");
-    warn!("Warn");
-    error!("Error");
+    debug!("Level::Debug");
+    info!("Level::Info");
+    warn!("Level::Warn");
+    error!("Level::Error");
 
     // Initialize the application
     let app: Application = ApplicationBuilder::new().set_cli_arguments(cli).build();

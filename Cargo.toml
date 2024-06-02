@@ -6,7 +6,6 @@ edition = "2018"
 description = "Simple utility to automatically pull repositories in a directory"
 repository = "https://github.com/aven-arlington/gpauto"
 license = "MIT"
-default-run = "gpauto"
 
 [dependencies]
 clap = { version = "4.*", features = ["derive", "string", "env"] }
@@ -18,7 +17,7 @@ tracing-subscriber = { version = "0.3", features = [
 ] }
 
 [[bin]]
-name = "gpauto"
+name = "gpautobin"
 path = "src/main.rs"
 
 [lib]

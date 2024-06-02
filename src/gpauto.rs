@@ -3,7 +3,7 @@ use std::path::PathBuf;
 
 #[derive(Debug, PartialEq)]
 pub struct Application {
-    log_file: PathBuf,
+    cur_dir: PathBuf,
 }
 
 impl Application {
@@ -12,30 +12,30 @@ impl Application {
     }
 
     pub fn run(&self) {
-        println!("Running application with log file: {:?}", self.log_file);
+        println!("Current directory: {:?}", self.cur_dir);
     }
 }
 
 #[derive(Default)]
 pub struct ApplicationBuilder {
-    log_file: PathBuf,
+    cur_dir: PathBuf,
 }
 
 impl ApplicationBuilder {
     pub fn new() -> ApplicationBuilder {
         ApplicationBuilder {
-            log_file: PathBuf::new(),
+            cur_dir: PathBuf::new(),
         }
     }
 
     pub fn build(self) -> Application {
         Application {
-            log_file: self.log_file,
+            cur_dir: self.cur_dir,
         }
     }
 
     pub fn set_cli_arguments(mut self, args: CliArgs) -> ApplicationBuilder {
-        self.log_file = args.log_path;
+        self.cur_dir = args.cwdir;
         self
     }
 }
