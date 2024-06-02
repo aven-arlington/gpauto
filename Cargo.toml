@@ -11,12 +11,16 @@ default-run = "gpauto"
 [dependencies]
 clap = { version = "4.*", features = ["derive", "string", "env"] }
 tracing = { version = "0.1" }
-tracing-subscriber = { version = "0.3" }
+tracing-subscriber = { version = "0.3", features = [
+   "default",
+   "env-filter",
+   "fmt",
+] }
 
 [[bin]]
 name = "gpauto"
 path = "src/main.rs"
 
 [lib]
-name = "gpa"
-path = "src/gpauto.rs"
+name = "gpauto"
+path = "src/lib.rs"

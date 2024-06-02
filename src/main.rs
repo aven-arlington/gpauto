@@ -1,44 +1,32 @@
-use clap::Parser;
-use gpa::app_api_call;
-use std::{env, path::PathBuf};
-use tracing::info;
+use gpauto::cli;
+use gpauto::{Application, ApplicationBuilder};
+use tracing::{debug, error, info, warn};
+use tracing_subscriber::EnvFilter;
 
-fn default_log_path() -> PathBuf {
-    let mut path = env::current_exe().unwrap();
-    println!("Current path: {:?}", path);
-    path.pop();
-    path.push("log/debug.log");
-    println!("Default log path: {:?}", path);
-    path
-}
-
-#[derive(Parser)]
-#[command(version, about, long_about = None)]
-struct Cli {
-    #[arg(long("ip"), default_value = "[::1]")]
-    ip_address: String,
-
-    #[arg(default_value = default_log_path().into_os_string())]
-    log_path: PathBuf,
-}
-
-const PNAME: &str = env!("CARGO_PKG_NAME");
-const PVSN: &str = env!("CARGO_PKG_VERSION_PATCH");
-
-pub fn main() {
+pub fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Argument parsing
-    let cli = Cli::parse();
+    let cli = cli::parse_args();
 
-    // Global subscription to tracing events
-    tracing_subscriber::fmt::init();
+    // Global tracing events based on RUST_LOG environment variable
+    // E.x. > RUST_LOG=info cargo run
+    // E.x. > export RUST_LOG=Info
+    let subscriber = tracing_subscriber::fmt()
+        .with_env_filter(EnvFilter::from_default_env())
+        .pretty()
+        .without_time()
+        .finish();
+    tracing::subscriber::set_global_default(subscriber)?;
 
     // Demo functionality
-    info!(PNAME, "Info call with package name");
-    println!("Default CLI argument: IP Address = {}", cli.ip_address);
-    let some_data: u32 = PVSN.parse().unwrap();
-    let data_returned = app_api_call(some_data);
-    info!(
-        data_modified = data_returned != some_data,
-        data_returned, "Data processing complete"
-    )
+    debug!("Debug");
+    info!("Info");
+    warn!("Warn");
+    error!("Error");
+
+    // Initialize the application
+    let app: Application = ApplicationBuilder::new().set_cli_arguments(cli).build();
+
+    // Run the application
+    app.run();
+    Ok(())
 }
