@@ -8,13 +8,15 @@ repository = "https://github.com/aven-arlington/gpauto"
 license = "MIT"
 
 [dependencies]
-clap = { version = "4.*", features = ["derive", "string", "env"] }
-tracing = { version = "0.1" }
 tracing-subscriber = { version = "0.3", features = [
    "default",
    "env-filter",
    "fmt",
 ] }
+clap = { version = "4.*", features = ["derive", "string", "env"] }
+git2 = "0.18.*"
+tracing = { version = "0.1" }
+walkdir = "2"
 
 [[bin]]
 name = "gpautobin"
